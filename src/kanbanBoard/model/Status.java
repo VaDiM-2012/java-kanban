@@ -1,4 +1,4 @@
-package TasksAndEpics;
+package kanbanBoard.model;
 
 public enum Status {
     NEW,

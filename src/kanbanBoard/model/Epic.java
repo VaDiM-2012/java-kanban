@@ -1,4 +1,4 @@
-package TasksAndEpics;
+package kanbanBoard.model;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ public class Epic extends Task{
         super(title, description);
         this.subtasksIds = new ArrayList<>();
     }
+
 
     public ArrayList<Integer> getSubtasksIds() {
         return subtasksIds;
@@ -29,7 +30,7 @@ public class Epic extends Task{
 
     @Override
     public String toString() {
-        return "TasksAndEpics.Epic{" +
+        return "Epic{" +
                 "subtasksIds=" + subtasksIds +
                 ", title='" + title + '\'' +
                 ", description='" + description.length() + '\'' +

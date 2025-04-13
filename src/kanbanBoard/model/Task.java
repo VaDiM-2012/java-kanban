@@ -1,4 +1,4 @@
-package TasksAndEpics;
+package kanbanBoard.model;
 
 import java.util.Objects;
 
@@ -14,10 +14,11 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public Task(String title, String description, Status status) {
+    public Task(String title, String description, Status status, int id) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,9 +66,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "TasksAndEpics.Task{" +
+        return "Task{" +
                 "title='" + title + '\'' +
-                ", description='" + description.length() + " symbols" + '\'' +
+                ", description='" + description.length() + '\'' +
                 ", id=" + id +
                 ", status=" + status +
                 '}';
