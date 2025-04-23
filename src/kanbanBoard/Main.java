@@ -1,11 +1,13 @@
 package kanbanBoard;
 
+import kanbanBoard.manager.task.InMemoryTaskManager;
+import kanbanBoard.manager.task.Managers;
 import kanbanBoard.manager.task.TaskManager;
 import kanbanBoard.model.*;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
         manager.createTask(new Task("Название задачи 1", "Описание задачи 1"));
         manager.createTask(new Task("Название задачи 2", "Описание задачи 2"));
         manager.createEpic(new Epic("Название эпика 1", "Описание эпика 1"));
@@ -33,9 +35,35 @@ public class Main {
         manager.deleteTask(1);
         manager.deleteEpic(3);
 
-        System.out.println(manager.getTask());
-        System.out.println(manager.getEpic());
-        System.out.println(manager.getSubtask());
+        System.out.println(manager.getTask(2));
+        System.out.println(manager.getEpic(5));
+        System.out.println(manager.getSubtask(6));
 
+        printAllTasks(manager);
+
+    }
+
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getTask()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getEpic()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getAllSubtasksOfEpic(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubtask()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
