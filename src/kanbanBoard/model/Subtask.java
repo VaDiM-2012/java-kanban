@@ -14,6 +14,12 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(Subtask source) {
+        super(source);
+        this.epicId = source.epicId;
+    }
+
+
     public int getEpicId() {
         return epicId;
     }
@@ -21,7 +27,7 @@ public class Subtask extends Task {
     public void setId(int id) {
         if (id == epicId) {
             this.id = null;
-        }else {
+        } else {
             this.id = id;
         }
     }

@@ -2,7 +2,7 @@ package kanbanBoard.model;
 
 import java.util.ArrayList;
 
-public class Epic extends Task{
+public class Epic extends Task {
     private final ArrayList<Integer> subtasksIds;
 
     public Epic(String title, String description) {
@@ -10,21 +10,28 @@ public class Epic extends Task{
         this.subtasksIds = new ArrayList<>();
     }
 
+    public Epic(Epic source) {
+        super(source);
+        this.subtasksIds = new ArrayList<>(source.subtasksIds);
+    }
 
     public ArrayList<Integer> getSubtasksIds() {
         return subtasksIds;
     }
 
 
-    public void addSubtask(Subtask subtask){
+    public void addSubtask(Subtask subtask) {
+        if (subtask.getId() == null) {
+            return;
+        }
         this.subtasksIds.add(subtask.getId());
     }
 
-    public void removeSubtask(int id){
+    public void removeSubtask(int id) {
         subtasksIds.remove(id);
     }
 
-    public void removeSubtaskAll(){
+    public void removeSubtaskAll() {
         subtasksIds.clear();
     }
 
@@ -38,6 +45,4 @@ public class Epic extends Task{
                 ", status=" + status +
                 '}';
     }
-
-
 }

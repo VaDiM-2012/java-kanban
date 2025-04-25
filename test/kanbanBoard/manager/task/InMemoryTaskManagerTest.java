@@ -1,5 +1,6 @@
 package kanbanBoard.manager.task;
 
+import kanbanBoard.manager.history.InMemoryHistoryManager;
 import kanbanBoard.model.Epic;
 import kanbanBoard.model.Subtask;
 import kanbanBoard.model.Task;
@@ -10,26 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
     @Test
-    void epicCannotBeAddedToItselfAsSubtask() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
-
-        //Создаём Эпик
-        Epic epic = new Epic("Создать тестовый Эпик", "Описание тестового Эпика");
-        epic.setId(1);
-
-        //Создаём подзадачу, у которой ID как у Эпика
-        Subtask subtask = new Subtask("Создать тестовую подзадачу", "Описание тестовой подзадачи", 1);
-        subtask.setId(1);
-
-        //Пытаемся добавить подзадачу, у которой ID как у Эпика, в качестве подзадачи Эпика и проверяем, что получилось null
-        assertNull(manager.updateSubtask(subtask));
-    }
-
-    @Test
-    void subtaskCannotBeAddedToItselfAsSubtask() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    void null_returnNull_subtaskIdIsNull() {
+        InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         //Создаём подзадачу
         Subtask subtask = new Subtask("Создать тестовую подзадачу", "Описание тестовой подзадачи", 1);
@@ -40,8 +24,8 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void addDifferentTypesOfTasksAndCanFindThemById() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    void null_returnNotNull_getTaskAndGetEpicAndGetSubtaskIsNotNull() {
+        InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         //Создаём Задачу
         Task task = new Task("Создать тестовую Задачу", "Описание тестовой Задачи");
@@ -61,8 +45,8 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void tasksWithSetIdAndGeneratedIdDoNotConflictWithinManager() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    void null_returnNotNull_updateTaskAndUpdateEpicAndUpdateSubtaskIsNotNull() {
+        InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         //Создаём Задачу 1
         Task task1 = new Task("Создать тестовую Задачу", "Описание тестовой Задачи");
@@ -76,7 +60,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(manager.updateTask(task2));
         assertEquals(task2.getTitle(), manager.getTask(1).getTitle());
 
-        manager = new InMemoryTaskManager();
+        manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         // Создаём Эпик 1
         Epic epic1 = new Epic("Создать тестовый Эпик", "Описание тестового Эпика");
@@ -104,8 +88,8 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testTaskImmutabilityWhenAddingToManager() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    void equals_returnTrue_TaskAndEpicAndSubtaskAreSame() {
+        InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         //Создаём Задачу
         Task task = new Task("Создать тестовую Задачу", "Описание тестовой Задачи");
@@ -115,7 +99,7 @@ class InMemoryTaskManagerTest {
         assertEquals(task.getTitle(), manager.getTask(1).getTitle());
         assertEquals(task.getDescription(), manager.getTask(1).getDescription());
 
-        manager = new InMemoryTaskManager();
+        manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         // Создаём Эпик
         Epic epic = new Epic("Создать тестовый Эпик", "Описание тестового Эпика");

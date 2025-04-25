@@ -1,13 +1,12 @@
 package kanbanBoard;
 
-import kanbanBoard.manager.task.InMemoryTaskManager;
-import kanbanBoard.manager.task.Managers;
+import kanbanBoard.manager.Managers;
 import kanbanBoard.manager.task.TaskManager;
 import kanbanBoard.model.*;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
+        TaskManager manager = Managers.getDefault(Managers.getDefaultHistoryManager());
         manager.createTask(new Task("Название задачи 1", "Описание задачи 1"));
         manager.createTask(new Task("Название задачи 2", "Описание задачи 2"));
         manager.createEpic(new Epic("Название эпика 1", "Описание эпика 1"));

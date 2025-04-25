@@ -1,32 +1,49 @@
 package kanbanBoard.manager.history;
 
 import kanbanBoard.manager.task.InMemoryTaskManager;
+import kanbanBoard.model.Epic;
+import kanbanBoard.model.Subtask;
 import kanbanBoard.model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class InMemoryHistoryManagerTest {
     @Test
-    void testTaskHistoryManagerPreservesPreviousVersionAndData(){
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+    void equals_returnFalse_objectsAreDifferent() {
 
-        Task task10 = null;
+        //Начальные данные
+        HistoryManager historyManager = new InMemoryHistoryManager();
+        Task task = new Task("Заголовок", "Описание");
 
-        for(int i=0; i<10; i++){
-            manager.createTask(new Task("task " + (i + 1),"discription "+(i + 1)));
-            if(i != 9){
-                manager.getTask(i+1);
-            } else {
-                task10 = manager.getTask(i+1);
-            }
-        }
-        manager.createTask(new Task("task ","discription "));
-        manager.getTask(11);
-        ArrayList<Task> historyManager = manager.getHistory();
-        //Проверка, что предыдущая версия сохранена и остались все данные
-        assertEquals(task10.getTitle(),historyManager.get(8).getTitle(),"Предыдущая версия не сохранена");
+        //Добавление задачи в историю и ее изменение
+        historyManager.add(task);
+        task.setTitle("Новый заголовок");
+        task.setDescription("Новое описание");
+        historyManager.add(task);
+
+        //Проверка неизменности задачи в истории после обновления
+        ArrayList<Task> history = historyManager.getHistory();
+        assertNotEquals(history.get(0).getTitle(), history.get(1).getTitle(),"Заголвки должны быть разными");
+        assertNotEquals(history.get(0).getDescription(), history.get(1).getDescription(),"Описания должны быть разными");
     }
+
+    @Test
+    public void equals_returnTrue_maxSizeHistoryIs10() {
+        HistoryManager historyManager = new InMemoryHistoryManager();
+        Task task = new Task("Заголовок", "Описание");
+
+        // Добавляем задачу в историю 11 раз
+        for (int i = 0; i < 11; i++) {
+            historyManager.add(task);
+        }
+
+        // Получаем историю и проверяем её размер
+        ArrayList<Task> history = historyManager.getHistory();
+        assertEquals(10, history.size(), "Размер истории не соответствует ожидаемому значению");
+    }
+
 
 }

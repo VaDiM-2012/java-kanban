@@ -21,6 +21,14 @@ public class Task {
         this.id = id;
     }
 
+    public Task(Task source) {
+        this.title = source.title;
+        this.description = source.description;
+        this.id = source.id;
+        this.status = source.status;
+    }
+
+
     public String getTitle() {
         return title;
     }
@@ -44,7 +52,6 @@ public class Task {
     public Integer getId() {
         return id;
     }
-
 
 
     @Override

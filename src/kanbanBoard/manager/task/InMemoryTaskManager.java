@@ -13,14 +13,16 @@ public class InMemoryTaskManager implements TaskManager {
         return ++countId;
     }
 
-    private final HistoryManager viewHistory = Managers.getDefaultHistoryManager();
+    private final HistoryManager viewHistory;
 
     //Структуры для хранения задач
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-
+    public InMemoryTaskManager(HistoryManager viewHistory) {
+        this.viewHistory = viewHistory;
+    }
 
 
     @Override
@@ -68,29 +70,32 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int id) {
-        if (!tasks.containsKey(id)) {
+        Task task = tasks.get(id); // Считываем значение один раз
+        if (task == null) {        // Проверяем, существует ли задача
             return null;
         }
-        viewHistory.add(tasks.get(id));
-        return tasks.get(id);
+        viewHistory.add(task);     // Используем сохраненное значение
+        return task;               // Возвращаем сохраненное значение
     }
 
     @Override
     public Epic getEpic(int id) {
-        if (!epics.containsKey(id)) {
+        Epic epic = epics.get(id);
+        if (epic == null) {
             return null;
         }
-        viewHistory.add(epics.get(id));
-        return epics.get(id);
+        viewHistory.add(epic);
+        return epic;
     }
 
     @Override
     public Subtask getSubtask(int id) {
-        if (!subtasks.containsKey(id)) {
+        Subtask subtask = subtasks.get(id);
+        if (subtask == null) {
             return null;
         }
-        viewHistory.add(subtasks.get(id));
-        return subtasks.get(id);
+        viewHistory.add(subtask);
+        return subtask;
     }
 
 

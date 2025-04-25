@@ -6,19 +6,20 @@ import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
     //Список просмотренных задач по ID
-    ArrayList<Task> viewHistory = new ArrayList<>();
+    private ArrayList<Task> viewHistory = new ArrayList<>();
     private final int MAX_SIZE_VIEW_HISTORY = 10;
 
     @Override
     public void add(Task task) {
-        viewHistory.add(task);
+        viewHistory.add(new Task(task));
+
+        if (viewHistory.size() > MAX_SIZE_VIEW_HISTORY) {
+            viewHistory.removeFirst();
+        }
     }
 
     @Override
     public ArrayList<Task> getHistory() {
-        if (viewHistory.size() > MAX_SIZE_VIEW_HISTORY) {
-            viewHistory.removeFirst();
-        }
         return new ArrayList<>(viewHistory);
     }
 }
