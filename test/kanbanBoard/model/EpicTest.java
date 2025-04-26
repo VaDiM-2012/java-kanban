@@ -28,9 +28,7 @@ class EpicTest {
     // подзадачи получаю ошибку компиляции.
     // В этом тесте я проверяю, что в список ArrayList<Integer> subtasksIds Эпика не будет добавлен ID Эпика
     @Test
-    void true_returnTrue_NotAddEpicIdInSubtasksIds() {
-        InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
-
+    void addSubtask_subtaskNutAdded_subtaskIdEqualsEpicId() {
         // Создаём Эпик
         Epic epic = new Epic("Создать тестовый Эпик", "Описание тестового Эпика");
         epic.setId(1);

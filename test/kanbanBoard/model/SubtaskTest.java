@@ -20,4 +20,13 @@ class SubtaskTest {
         assertEquals(subtask1, subtask2, "Экземпляры класса Subtask не равны");
     }
 
+    @Test
+    void setId_returnNullInId_idSubtaskSameAsEpicId() {
+        //Создаём подзадачу
+        Subtask subtask = new Subtask("Создать тестовую подзадачу", "Описание тестовой подзадачи", 1);
+        subtask.setId(1);
+
+        //Проверяем, что подзадачу нельзя сделать своим Эпиком
+        assertNull(subtask.getId());
+    }
 }

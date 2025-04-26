@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
     @Test
-    void equals_returnFalse_objectsAreDifferent() {
+    void add_addCopyOfObject() {
 
         //Начальные данные
         HistoryManager historyManager = new InMemoryHistoryManager();
@@ -31,7 +31,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void equals_returnTrue_maxSizeHistoryIs10() {
+    public void add_removeFirstElement_elementsCountMoreThanTen() {
         HistoryManager historyManager = new InMemoryHistoryManager();
         Task task = new Task("Заголовок", "Описание");
 
