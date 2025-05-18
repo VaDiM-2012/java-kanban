@@ -93,23 +93,17 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (node == head && node == tail) {
             head = null;
             tail = null;
-        }
-        // Если узел — первый
-        else if (node == head) {
+        } else if (node == head) { // Если узел — первый
             head = node.next;
             if (head != null) {
                 head.prev = null;
             } else {
                 tail = null;
             }
-        }
-        // Если узел — последний
-        else if (node == tail) {
+        } else if (node == tail) { // Если узел — последний
             tail = node.prev;
             tail.next = null;
-        }
-        // Узел в середине
-        else {
+        } else { // Узел в середине
             node.prev.next = node.next;
             node.next.prev = node.prev;
         }
