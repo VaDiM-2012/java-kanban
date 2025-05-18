@@ -19,6 +19,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
+    public void remove(int id) {
+
+    }
+
+    @Override
     public ArrayList<Task> getHistory() {
         return new ArrayList<>(viewHistory);
     }

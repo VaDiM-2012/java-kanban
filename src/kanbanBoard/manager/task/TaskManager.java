@@ -5,6 +5,7 @@ import kanbanBoard.model.Subtask;
 import kanbanBoard.model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     Task createTask(Task task);
@@ -45,5 +46,5 @@ public interface TaskManager {
 
     ArrayList<Subtask> getAllSubtasksOfEpic(int id);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 }

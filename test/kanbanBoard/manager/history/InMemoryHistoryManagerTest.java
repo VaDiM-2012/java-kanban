@@ -7,6 +7,7 @@ import kanbanBoard.model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ class InMemoryHistoryManagerTest {
         historyManager.add(task);
 
         //Проверка неизменности задачи в истории после обновления
-        ArrayList<Task> history = historyManager.getHistory();
+        List<Task> history = historyManager.getHistory();
         assertNotEquals(history.get(0).getTitle(), history.get(1).getTitle(),"Заголвки должны быть разными");
         assertNotEquals(history.get(0).getDescription(), history.get(1).getDescription(),"Описания должны быть разными");
     }
@@ -41,7 +42,7 @@ class InMemoryHistoryManagerTest {
         }
 
         // Получаем историю и проверяем её размер
-        ArrayList<Task> history = historyManager.getHistory();
+        List<Task> history = historyManager.getHistory();
         assertEquals(10, history.size(), "Размер истории не соответствует ожидаемому значению");
     }
 

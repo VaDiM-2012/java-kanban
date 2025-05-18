@@ -2,6 +2,7 @@ package kanbanBoard.manager.task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import kanbanBoard.manager.history.HistoryManager;
 import kanbanBoard.model.*;
@@ -207,7 +208,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(epicId).setStatus(epicStatus);
     }
 
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return viewHistory.getHistory();
     }
 }
