@@ -1,6 +1,6 @@
-package kanbanBoard.manager.task;
+package kanbanboard.manager.task;
 
-import kanbanBoard.manager.Managers;
+import kanbanboard.manager.Managers;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

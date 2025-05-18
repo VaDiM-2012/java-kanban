@@ -1,4 +1,4 @@
-package kanbanBoard.model;
+package kanbanboard.model;
 
 import org.junit.jupiter.api.Test;
 
