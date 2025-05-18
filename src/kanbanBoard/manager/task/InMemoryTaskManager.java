@@ -129,37 +129,60 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        viewHistory.remove(id); // Удаляем из истории
     }
 
     @Override
     public void deleteEpic(int id) {
-        for (int taskId : epics.get(id).getSubtasksIds()) {
-            subtasks.remove(taskId);
+        Epic epic = epics.get(id);
+        if (epic != null) {
+            for (int taskId : epic.getSubtasksIds()) {
+                subtasks.remove(taskId);
+                viewHistory.remove(taskId); // Удаляем подзадачи из истории
+            }
+            epics.remove(id);
+            viewHistory.remove(id); // Удаляем эпик из истории
         }
-        epics.remove(id);
     }
 
     @Override
     public void deleteSubtask(int id) {
-        int epicId = subtasks.get(id).getEpicId();
-        subtasks.remove(id);
-        epics.get(epicId).removeSubtask(id);
-        updateEpicStatus(epicId);
+        Subtask subtask = subtasks.get(id);
+        if (subtask != null) {
+            int epicId = subtask.getEpicId();
+            subtasks.remove(id);
+            epics.get(epicId).removeSubtask(id);
+            updateEpicStatus(epicId);
+            viewHistory.remove(id); // Удаляем подзадачу из истории
+        }
     }
 
     @Override
     public void deleteTask() {
+        for (Integer id : tasks.keySet()) {
+            viewHistory.remove(id); // Удаляем все задачи из истории
+        }
         tasks.clear();
     }
 
     @Override
     public void deleteEpic() {
+        for (Epic epic : epics.values()) {
+            for (Integer taskId : epic.getSubtasksIds()) {
+                subtasks.remove(taskId);
+                viewHistory.remove(taskId); // Удаляем подзадачи из истории
+            }
+            viewHistory.remove(epic.getId()); // Удаляем эпик из истории
+        }
         epics.clear();
         subtasks.clear();
     }
 
     @Override
     public void deleteSubtask() {
+        for (Integer id : subtasks.keySet()) {
+            viewHistory.remove(id); // Удаляем подзадачи из истории
+        }
         subtasks.clear();
         for (int i : epics.keySet()) {
             epics.get(i).removeSubtaskAll();
