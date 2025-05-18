@@ -1,9 +1,9 @@
-package kanbanBoard.manager;
+package kanbanboard.manager;
 
-import kanbanBoard.manager.history.HistoryManager;
-import kanbanBoard.manager.history.InMemoryHistoryManager;
-import kanbanBoard.manager.task.InMemoryTaskManager;
-import kanbanBoard.manager.task.TaskManager;
+import kanbanboard.manager.history.HistoryManager;
+import kanbanboard.manager.history.InMemoryHistoryManager;
+import kanbanboard.manager.task.InMemoryTaskManager;
+import kanbanboard.manager.task.TaskManager;
 
 public class Managers {
 

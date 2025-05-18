@@ -1,13 +1,11 @@
-package kanbanBoard.manager.task;
+package kanbanboard.manager.task;
 
-import kanbanBoard.manager.history.InMemoryHistoryManager;
-import kanbanBoard.model.Epic;
-import kanbanBoard.model.Subtask;
-import kanbanBoard.model.Task;
+import kanbanboard.manager.history.InMemoryHistoryManager;
+import kanbanboard.model.Epic;
+import kanbanboard.model.Subtask;
+import kanbanboard.model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

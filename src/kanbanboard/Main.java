@@ -1,10 +1,10 @@
-package kanbanBoard;
+package kanbanboard;
 
-import kanbanBoard.manager.Managers;
-import kanbanBoard.manager.task.TaskManager;
-import kanbanBoard.model.Epic;
-import kanbanBoard.model.Subtask;
-import kanbanBoard.model.Task;
+import kanbanboard.manager.Managers;
+import kanbanboard.manager.task.TaskManager;
+import kanbanboard.model.Epic;
+import kanbanboard.model.Subtask;
+import kanbanboard.model.Task;
 
 import java.util.List;
 

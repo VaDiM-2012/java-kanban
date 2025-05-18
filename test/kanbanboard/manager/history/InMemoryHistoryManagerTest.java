@@ -1,6 +1,6 @@
-package kanbanBoard.manager.history;
+package kanbanboard.manager.history;
 
-import kanbanBoard.model.Task;
+import kanbanboard.model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

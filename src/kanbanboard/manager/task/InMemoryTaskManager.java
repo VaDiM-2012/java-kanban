@@ -1,11 +1,11 @@
-package kanbanBoard.manager.task;
+package kanbanboard.manager.task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import kanbanBoard.manager.history.HistoryManager;
-import kanbanBoard.model.*;
+import kanbanboard.manager.history.HistoryManager;
+import kanbanboard.model.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int countId = 0;

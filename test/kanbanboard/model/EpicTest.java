@@ -1,7 +1,5 @@
-package kanbanBoard.model;
+package kanbanboard.model;
 
-import kanbanBoard.manager.history.InMemoryHistoryManager;
-import kanbanBoard.manager.task.InMemoryTaskManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
