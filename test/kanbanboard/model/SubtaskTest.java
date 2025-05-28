@@ -1,4 +1,4 @@
-package kanbanBoard.model;
+package kanbanboard.model;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,11 +9,11 @@ class SubtaskTest {
     @Test
     void equals_returnTrue_idIsSame() {
         //Создаем Subtask c id = 1
-        Subtask subtask1 = new Subtask("Задача №1", "Описание задачи №1",4);
+        Subtask subtask1 = new Subtask("Задача №1", "Описание задачи №1", 4);
         subtask1.setId(1);
 
         //Создаем еще один экземпляр Subtask с тем же самым id
-        Subtask subtask2 = new Subtask("Задача №2", "Описание задачи №2",5);
+        Subtask subtask2 = new Subtask("Задача №2", "Описание задачи №2", 5);
         subtask2.setId(1);
 
         //Проверяем, что два экземпляра равны

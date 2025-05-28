@@ -1,4 +1,4 @@
-package kanbanBoard.model;
+package kanbanboard.model;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class Epic extends Task {
     }
 
     public void removeSubtask(int id) {
-        subtasksIds.remove(id);
+        subtasksIds.remove(Integer.valueOf(id));
     }
 
     public void removeSubtaskAll() {
