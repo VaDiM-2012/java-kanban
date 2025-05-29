@@ -1,6 +1,6 @@
 package kanbanboard.manager.task;
 
-import kanbanboard.manager.task.ManagerSaveException;
+
 import kanbanboard.manager.history.InMemoryHistoryManager;
 import kanbanboard.model.Epic;
 import kanbanboard.model.Status;
