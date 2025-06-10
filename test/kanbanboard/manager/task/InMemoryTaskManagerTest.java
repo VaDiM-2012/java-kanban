@@ -7,13 +7,15 @@ import kanbanboard.model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
-    private InMemoryTaskManager manager;
+    protected InMemoryTaskManager manager;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         manager = new InMemoryTaskManager(new InMemoryHistoryManager());
     }
 

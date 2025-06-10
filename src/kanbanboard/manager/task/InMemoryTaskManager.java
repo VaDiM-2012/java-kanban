@@ -8,18 +8,18 @@ import kanbanboard.manager.history.HistoryManager;
 import kanbanboard.model.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int countId = 0;
+    protected int countId = 0;
 
-    private int getCountId() {
+    protected int getCountId() {
         return ++countId;
     }
 
-    private final HistoryManager viewHistory;
+    protected final HistoryManager viewHistory;
 
     //Структуры для хранения задач
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
     public InMemoryTaskManager(HistoryManager viewHistory) {
         this.viewHistory = viewHistory;
@@ -225,7 +225,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private void updateEpicStatus(int epicId) {
+    protected void updateEpicStatus(int epicId) {
         ArrayList<Subtask> epicSubtasks = getAllSubtasksOfEpic(epicId);
         Status epicStatus = calculateEpicStatus(epicSubtasks);
         epics.get(epicId).setStatus(epicStatus);
