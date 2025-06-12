@@ -2,22 +2,36 @@ package kanbanboard.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
-
     @Test
     void equals_returnTrue_idIsSame() {
-        //Создаем Task c id = 1
-        Task task1 = new Task("Задача №1", "Описание задачи №1");
+        Task task1 = new Task("Task 1", "Description");
         task1.setId(1);
-
-        //Создаем еще один экземпляр Task с тем же самым id
-        Task task2 = new Task("Задача №2", "Описание задачи №2");
+        Task task2 = new Task("Task 2", "Different Description");
         task2.setId(1);
 
-        //Проверяем, что два экземпляра равны
-        assertEquals(task1, task2, "Экземпляры класса Task не равны");
+        assertEquals(task1, task2, "Задачи с одинаковым ID должны быть равны");
     }
 
+    @Test
+    void getEndTime_calculatesCorrectly_withStartTimeAndDuration() {
+        Task task = new Task("Task 1", "Description");
+        task.setStartTime(LocalDateTime.of(2025, 6, 10, 10, 0));
+        task.setDuration(Duration.ofMinutes(60));
+
+        assertEquals(LocalDateTime.of(2025, 6, 10, 11, 0), task.getEndTime(), "Время окончания рассчитано неверно");
+    }
+
+    @Test
+    void getEndTime_returnsNull_noStartTime() {
+        Task task = new Task("Task 1", "Description");
+        task.setDuration(Duration.ofMinutes(60));
+
+        assertNull(task.getEndTime(), "Время окончания должно быть null без времени начала");
+    }
 }

@@ -1,16 +1,18 @@
 package kanbanboard.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private final int epicId;
-
 
     public Subtask(String title, String description, int epicId) {
         super(title, description);
         this.epicId = epicId;
     }
 
-    public Subtask(String title, String description, int epicId, Status status, int id) {
-        super(title, description, status, id);
+    public Subtask(String title, String description, int epicId, Status status, int id, Duration duration, LocalDateTime startTime) {
+        super(title, description, status, id, duration, startTime);
         this.epicId = epicId;
     }
 
@@ -19,12 +21,12 @@ public class Subtask extends Task {
         this.epicId = source.epicId;
     }
 
-
     public int getEpicId() {
         return epicId;
     }
 
-    public void setId(int id) {
+    @Override
+    public void setId(Integer id) { // Добавляем @Override и используем Integer
         if (id == epicId) {
             this.id = null;
         } else {
@@ -40,6 +42,8 @@ public class Subtask extends Task {
                 ", description='" + description.length() + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
     }
 }

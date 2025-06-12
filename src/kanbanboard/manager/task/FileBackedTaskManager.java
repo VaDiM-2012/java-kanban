@@ -1,7 +1,7 @@
 package kanbanboard.manager.task;
 
 import kanbanboard.manager.history.HistoryManager;
-import kanbanboard.manager.history.InMemoryHistoryManager;
+import kanbanboard.manager.history.InMemoryHistoryManager; // Добавлен импорт
 import kanbanboard.model.*;
 
 import java.io.BufferedWriter;
@@ -16,13 +16,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
     private final CsvConverter csvConverter;
 
-    private FileBackedTaskManager(HistoryManager historyManager, File file) {
+    public FileBackedTaskManager(HistoryManager historyManager, File file) {
         super(historyManager);
         this.file = file;
         this.csvConverter = new CsvConverter();
     }
 
-    // Переопределение методов, модифицирующих состояние
     @Override
     public Task createTask(Task task) {
         Task createdTask = super.createTask(task);
@@ -49,7 +48,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public Task updateTask(Task task) {
         Task updatedTask = super.updateTask(task);
-        save();
+        if (updatedTask != null) {
+            save();
+        }
         return updatedTask;
     }
 
@@ -107,14 +108,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    // Метод сохранения состояния в файл
     protected void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
-            // Записываем заголовок
             writer.write(csvConverter.getCsvHeader());
             writer.newLine();
-
-            // Записываем задачи
             for (Task task : tasks.values()) {
                 writer.write(csvConverter.toCsvString(task));
                 writer.newLine();
@@ -132,13 +129,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    // Статический метод для загрузки из файла
     public static FileBackedTaskManager loadFromFile(HistoryManager historyManager, File file) {
         FileBackedTaskManager manager = new FileBackedTaskManager(historyManager, file);
         try {
             List<String> lines = manager.readLinesFromFile();
             manager.processCsvLines(lines);
             manager.updateAllEpicStatuses();
+            manager.updateAllEpicTimeFields();
             manager.updateCountId();
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка при чтении файла: " + file.getPath(), e);
@@ -146,14 +143,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return manager;
     }
 
-    // Чтение строк из файла
     private List<String> readLinesFromFile() throws IOException {
         return Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
     }
 
-    // Обработка строк CSV
     private void processCsvLines(List<String> lines) {
-        // Пропускаем заголовок
         for (int i = 1; i < lines.size(); i++) {
             String line = lines.get(i);
             if (!line.trim().isEmpty()) {
@@ -162,7 +156,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    // Обработка одной строки CSV
     private void processCsvLine(String line) {
         String[] parts = line.split(",");
         if (parts.length < 2) {
@@ -173,6 +166,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             case TASK:
                 Task task = csvConverter.fromCsvStringToTask(line);
                 tasks.put(task.getId(), task);
+                if (task.getStartTime() != null) {
+                    prioritizedTasks.add(task);
+                }
                 break;
             case EPIC:
                 Epic epic = csvConverter.fromCsvStringToEpic(line);
@@ -185,20 +181,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (subtaskEpic != null) {
                     subtaskEpic.addSubtask(subtask);
                 }
+                if (subtask.getStartTime() != null) {
+                    prioritizedTasks.add(subtask);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
         }
     }
 
-    // Обновление статусов всех эпиков
     private void updateAllEpicStatuses() {
         for (Epic epic : getEpic()) {
             updateEpicStatus(epic.getId());
         }
     }
 
-    // Обновление countId
+    private void updateAllEpicTimeFields() {
+        for (Epic epic : getEpic()) {
+            updateEpicTimeFields(epic.getId());
+        }
+    }
+
     private void updateCountId() {
         int maxId = 0;
         for (Task task : getTask()) {
@@ -214,7 +217,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\uvaro\\Desktop", "test.csv");
+        File file = new File("C:\\Users\\uvaro\\Desktop\\test.csv"); // Исправлен путь
         FileBackedTaskManager manager = loadFromFile(new InMemoryHistoryManager(), file);
         for (Task task : manager.getTask()) {
             System.out.println(task);
