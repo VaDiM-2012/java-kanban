@@ -239,7 +239,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void isTaskOverlapping_throwsException_onOverlap() {
+    void checkTaskOverlapping_throwsException_onOverlap() {
         Task task1 = new Task("Task 1", "Description");
         task1.setStartTime(LocalDateTime.of(2025, 6, 10, 10, 0));
         task1.setDuration(Duration.ofMinutes(60));

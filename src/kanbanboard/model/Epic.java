@@ -3,11 +3,10 @@ package kanbanboard.model;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subtasksIds;
-    private LocalDateTime endTime; // Новое поле для времени завершения
+    private LocalDateTime endTime;
 
     public Epic(String title, String description) {
         super(title, description);
@@ -44,34 +43,8 @@ public class Epic extends Task {
         subtasksIds.clear();
     }
 
-    public void updateTimeFields(List<Subtask> subtasks) {
-        if (subtasks.isEmpty()) {
-            this.startTime = null;
-            this.duration = Duration.ZERO;
-            this.endTime = null;
-            return;
-        }
-
-        LocalDateTime earliestStart = null;
-        LocalDateTime latestEnd = null;
-        long totalMinutes = 0;
-
-        for (Subtask subtask : subtasks) {
-            if (subtask.getStartTime() != null) {
-                if (earliestStart == null || subtask.getStartTime().isBefore(earliestStart)) {
-                    earliestStart = subtask.getStartTime();
-                }
-                LocalDateTime subtaskEnd = subtask.getEndTime();
-                if (subtaskEnd != null && (latestEnd == null || subtaskEnd.isAfter(latestEnd))) {
-                    latestEnd = subtaskEnd;
-                }
-                totalMinutes += subtask.getDuration().toMinutes();
-            }
-        }
-
-        this.startTime = earliestStart;
-        this.duration = Duration.ofMinutes(totalMinutes);
-        this.endTime = latestEnd;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override

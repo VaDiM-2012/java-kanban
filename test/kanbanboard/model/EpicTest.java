@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,28 +31,23 @@ class EpicTest {
     }
 
     @Test
-    void updateTimeFields_calculatesCorrectly_withSubtasks() {
+    void setTimeFields_updatesCorrectly() {
         Epic epic = new Epic("Epic 1", "Description");
-        List<Subtask> subtasks = new ArrayList<>();
-        Subtask subtask1 = new Subtask("Subtask 1", "Description", 1);
-        subtask1.setStartTime(LocalDateTime.of(2025, 6, 10, 10, 0));
-        subtask1.setDuration(Duration.ofMinutes(60));
-        Subtask subtask2 = new Subtask("Subtask 2", "Description", 1);
-        subtask2.setStartTime(LocalDateTime.of(2025, 6, 10, 12, 0));
-        subtask2.setDuration(Duration.ofMinutes(30));
-        subtasks.add(subtask1);
-        subtasks.add(subtask2);
+        epic.setStartTime(LocalDateTime.of(2025, 6, 10, 10, 0));
+        epic.setDuration(Duration.ofMinutes(90));
+        epic.setEndTime(LocalDateTime.of(2025, 6, 10, 12, 30));
 
-        epic.updateTimeFields(subtasks);
         assertEquals(Duration.ofMinutes(90), epic.getDuration(), "Неверная длительность эпика");
         assertEquals(LocalDateTime.of(2025, 6, 10, 10, 0), epic.getStartTime(), "Неверное время начала эпика");
         assertEquals(LocalDateTime.of(2025, 6, 10, 12, 30), epic.getEndTime(), "Неверное время окончания эпика");
     }
 
     @Test
-    void updateTimeFields_emptySubtasks_setsNull() {
+    void setTimeFields_emptyValues_setsNull() {
         Epic epic = new Epic("Epic 1", "Description");
-        epic.updateTimeFields(new ArrayList<>());
+        epic.setStartTime(null);
+        epic.setDuration(Duration.ZERO);
+        epic.setEndTime(null);
 
         assertEquals(Duration.ZERO, epic.getDuration(), "Длительность должна быть нулевой");
         assertNull(epic.getStartTime(), "Время начала должно быть null");

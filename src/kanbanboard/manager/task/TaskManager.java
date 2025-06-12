@@ -48,7 +48,5 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
-    List<Task> getPrioritizedTasks(); // Новый метод для получения отсортированного списка задач
-
-    boolean isTaskOverlapping(Task task); // Проверка пересечения задачи с другими
+    List<Task> getPrioritizedTasks();
 }
