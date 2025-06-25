@@ -1,7 +1,7 @@
 package kanbanboard.manager.task;
 
 import kanbanboard.manager.history.HistoryManager;
-import kanbanboard.manager.history.InMemoryHistoryManager; // Добавлен импорт
+import kanbanboard.manager.history.InMemoryHistoryManager;
 import kanbanboard.model.*;
 
 import java.io.BufferedWriter;
@@ -39,36 +39,28 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public Subtask createSubtask(Subtask subtask) {
         Subtask createdSubtask = super.createSubtask(subtask);
-        if (createdSubtask != null) {
-            save();
-        }
+        save();
         return createdSubtask;
     }
 
     @Override
     public Task updateTask(Task task) {
         Task updatedTask = super.updateTask(task);
-        if (updatedTask != null) {
-            save();
-        }
+        save();
         return updatedTask;
     }
 
     @Override
     public Epic updateEpic(Epic epic) {
         Epic updatedEpic = super.updateEpic(epic);
-        if (updatedEpic != null) {
-            save();
-        }
+        save();
         return updatedEpic;
     }
 
     @Override
     public Subtask updateSubtask(Subtask subtask) {
         Subtask updatedSubtask = super.updateSubtask(subtask);
-        if (updatedSubtask != null) {
-            save();
-        }
+        save();
         return updatedSubtask;
     }
 
@@ -176,11 +168,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 break;
             case SUBTASK:
                 Subtask subtask = csvConverter.fromCsvStringToSubtask(line);
-                subtasks.put(subtask.getId(), subtask);
-                Epic subtaskEpic = epics.get(subtask.getEpicId());
-                if (subtaskEpic != null) {
-                    subtaskEpic.addSubtask(subtask);
+                if (!epics.containsKey(subtask.getEpicId())) {
+                    throw new NotFoundException("Эпик с ID " + subtask.getEpicId() + " не найден при загрузке подзадачи");
                 }
+                subtasks.put(subtask.getId(), subtask);
+                epics.get(subtask.getEpicId()).addSubtask(subtask);
                 if (subtask.getStartTime() != null) {
                     prioritizedTasks.add(subtask);
                 }
@@ -217,7 +209,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\uvaro\\Desktop\\test.csv"); // Исправлен путь
+        File file = new File("tasks.csv");
         FileBackedTaskManager manager = loadFromFile(new InMemoryHistoryManager(), file);
         for (Task task : manager.getTask()) {
             System.out.println(task);
