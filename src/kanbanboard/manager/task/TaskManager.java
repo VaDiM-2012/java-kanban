@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
-
     Task createTask(Task task);
 
     Epic createEpic(Epic epic);
@@ -21,11 +20,11 @@ public interface TaskManager {
 
     ArrayList<Subtask> getSubtask();
 
-    Task getTask(int id);
+    Task getTask(int id) throws NotFoundException;
 
-    Epic getEpic(int id);
+    Epic getEpic(int id) throws NotFoundException;
 
-    Subtask getSubtask(int id);
+    Subtask getSubtask(int id) throws NotFoundException;
 
     Task updateTask(Task task);
 
@@ -45,7 +44,9 @@ public interface TaskManager {
 
     void deleteSubtask();
 
-    ArrayList<Subtask> getAllSubtasksOfEpic(int id);
+    ArrayList<Subtask> getAllSubtasksOfEpic(int id) throws NotFoundException;
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }

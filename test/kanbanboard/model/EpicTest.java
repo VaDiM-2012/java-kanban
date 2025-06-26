@@ -2,45 +2,55 @@ package kanbanboard.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTest {
-
     @Test
     void equals_returnTrue_idIsSame() {
-        //Создаем Epic c id = 1
-        Epic epic1 = new Epic("Задача №1", "Описание задачи №1");
+        Epic epic1 = new Epic("Epic 1", "Description");
         epic1.setId(1);
-
-        //Создаем еще один экземпляр Epic с тем же самым id
-        Epic epic2 = new Epic("Задача №2", "Описание задачи №2");
+        Epic epic2 = new Epic("Epic 2", "Different Description");
         epic2.setId(1);
 
-        //Проверяем, что два экземпляра равны
-        assertEquals(epic1, epic2, "Экземпляры класса Epic не равны");
+        assertEquals(epic1, epic2, "Эпики с одинаковым ID должны быть равны");
     }
 
-
-    // Задание: проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
-    // У меня Epic при добавлении подзадачи принимает объект Subtask, поэтому при добавлении Epic в качестве
-    // подзадачи получаю ошибку компиляции.
-    // В этом тесте я проверяю, что в список ArrayList<Integer> subtasksIds Эпика не будет добавлен ID Эпика
     @Test
-    void addSubtask_subtaskNutAdded_subtaskIdEqualsEpicId() {
-        // Создаём Эпик
-        Epic epic = new Epic("Создать тестовый Эпик", "Описание тестового Эпика");
+    void addSubtask_doesNotAdd_subtaskIdEqualsEpicId() {
+        Epic epic = new Epic("Epic 1", "Description");
         epic.setId(1);
-
-        //Создаём подзадачу
-        Subtask subtask = new Subtask("Создать тестовую подзадачу", "Описание тестовой подзадачи", 1);
-        //Устанавливаем ID подзадачи равный ID Эпика
+        Subtask subtask = new Subtask("Subtask 1", "Description", 1);
         subtask.setId(1);
 
-        //Добавляем подзадачу в Эпик
         epic.addSubtask(subtask);
-
-        // Проверяем, что Subtask не добавился в список подзадач Эпика
-        assertTrue(epic.getSubtasksIds().isEmpty(), "В список добавлен ID Эпика");
+        assertTrue(epic.getSubtasksIds().isEmpty(), "Подзадача с ID эпика не должна быть добавлена");
     }
 
+    @Test
+    void setTimeFields_updatesCorrectly() {
+        Epic epic = new Epic("Epic 1", "Description");
+        epic.setStartTime(LocalDateTime.of(2025, 6, 10, 10, 0));
+        epic.setDuration(Duration.ofMinutes(90));
+        epic.setEndTime(LocalDateTime.of(2025, 6, 10, 12, 30));
+
+        assertEquals(Duration.ofMinutes(90), epic.getDuration(), "Неверная длительность эпика");
+        assertEquals(LocalDateTime.of(2025, 6, 10, 10, 0), epic.getStartTime(), "Неверное время начала эпика");
+        assertEquals(LocalDateTime.of(2025, 6, 10, 12, 30), epic.getEndTime(), "Неверное время окончания эпика");
+    }
+
+    @Test
+    void setTimeFields_emptyValues_setsNull() {
+        Epic epic = new Epic("Epic 1", "Description");
+        epic.setStartTime(null);
+        epic.setDuration(Duration.ZERO);
+        epic.setEndTime(null);
+
+        assertEquals(Duration.ZERO, epic.getDuration(), "Длительность должна быть нулевой");
+        assertNull(epic.getStartTime(), "Время начала должно быть null");
+        assertNull(epic.getEndTime(), "Время окончания должно быть null");
+    }
 }
