@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import kanbanboard.manager.task.TaskManager;
-import kanbanboard.manager.history.HistoryManager;
-import kanbanboard.manager.history.InMemoryHistoryManager;
 import kanbanboard.manager.Managers;
 
 import java.io.IOException;
