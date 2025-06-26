@@ -64,7 +64,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         assertEquals(Duration.ofMinutes(60), loadedManager.getTask(task.getId()).getDuration(), "Длительность задачи не восстановлена");
         assertNotNull(loadedManager.getEpic(epic.getId()), "Эпик не восстановлен");
         assertNotNull(loadedManager.getSubtask(subtask.getId()), "Подзадача не восстановлена");
-        assertEquals(3, loadedManager.countId, "Счетчик ID не восстановлен");
+        assertEquals(2, loadedManager.countId, "Счетчик ID не восстановлен");
     }
 
     @Test

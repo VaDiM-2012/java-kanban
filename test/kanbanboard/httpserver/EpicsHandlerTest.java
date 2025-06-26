@@ -1,5 +1,6 @@
 package kanbanboard.httpserver;
 
+import kanbanboard.manager.task.NotFoundException;
 import kanbanboard.model.Epic;
 import kanbanboard.model.Subtask;
 import kanbanboard.model.Status;
@@ -213,9 +214,9 @@ public class EpicsHandlerTest extends BaseHttpHandlerTest {
         assertTrue(response.body().contains("Эпик удален"), "Сообщение об успехе не соответствует");
 
         // Проверяем, что эпик и подзадачи удалены из менеджера
-        assertNull(taskManager.getEpic(epic.getId()), "Эпик должен быть удален из менеджера");
-        assertNull(taskManager.getSubtask(subtask1.getId()), "Подзадача 1 должна быть удалена");
-        assertNull(taskManager.getSubtask(subtask2.getId()), "Подзадача 2 должна быть удалена");
+        assertThrows(NotFoundException.class, () ->taskManager.getEpic(epic.getId()), "Эпик должен быть удален из менеджера");
+        assertThrows(NotFoundException.class, () ->taskManager.getSubtask(subtask1.getId()), "Подзадача 1 должна быть удалена");
+        assertThrows(NotFoundException.class, () ->taskManager.getSubtask(subtask2.getId()), "Подзадача 2 должна быть удалена");
     }
 
     /**

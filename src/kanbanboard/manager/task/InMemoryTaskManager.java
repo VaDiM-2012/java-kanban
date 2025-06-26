@@ -26,7 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     protected int getCountId() {
-        return ++countId;
+        return countId++;
     }
 
     protected void checkTaskOverlapping(Task task) {

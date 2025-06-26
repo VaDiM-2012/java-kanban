@@ -1,5 +1,6 @@
 package kanbanboard.httpserver;
 
+import kanbanboard.manager.task.NotFoundException;
 import kanbanboard.model.Task;
 import kanbanboard.model.Status;
 import org.junit.jupiter.api.Test;
@@ -165,7 +166,7 @@ public class TasksHandlerTest extends BaseHttpHandlerTest {
         assertTrue(response.body().contains("Задача удалена"), "Сообщение об успехе не соответствует");
 
         // Проверяем, что задача удалена из менеджера
-        assertNull(taskManager.getTask(task.getId()), "Задача должна быть удалена из менеджера");
+        assertThrows(NotFoundException.class, () ->taskManager.getTask(task.getId()), "Задача должна быть удалена из менеджера");
     }
 
     /**

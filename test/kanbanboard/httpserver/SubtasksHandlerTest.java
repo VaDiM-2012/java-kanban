@@ -1,5 +1,6 @@
 package kanbanboard.httpserver;
 
+import kanbanboard.manager.task.NotFoundException;
 import kanbanboard.model.Epic;
 import kanbanboard.model.Subtask;
 import kanbanboard.model.Status;
@@ -70,7 +71,7 @@ public class SubtasksHandlerTest extends BaseHttpHandlerTest {
 
         // Проверяем статус ответа
         assertEquals(404, response.statusCode(), "Код ответа должен быть 404 (Not Found)");
-        assertTrue(response.body().contains("Эпик с ID 999 не найден"), "Сообщение об ошибке не соответствует");
+        assertTrue(response.body().contains("Ресурс не найден"), "Сообщение об ошибке не соответствует");
     }
 
     /**
@@ -220,7 +221,7 @@ public class SubtasksHandlerTest extends BaseHttpHandlerTest {
         assertTrue(response.body().contains("Подзадача удалена"), "Сообщение об успехе не соответствует");
 
         // Проверяем, что подзадача удалена из менеджера
-        assertNull(taskManager.getSubtask(subtask.getId()), "Подзадача должна быть удалена из менеджера");
+        assertThrows(NotFoundException.class, () ->taskManager.getSubtask(subtask.getId()), "Подзадача должна быть удалена из менеджера");
 
         // Проверяем, что подзадача удалена из списка подзадач эпика и эпик обновился
         Epic updatedEpic = taskManager.getEpic(epic.getId());

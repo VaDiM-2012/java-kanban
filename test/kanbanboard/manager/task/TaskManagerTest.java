@@ -64,7 +64,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void createSubtask_returnsNull_invalidEpicId() {
         Subtask subtask = new Subtask("Subtask 1", "Description", 999);
-        assertNull(manager.createSubtask(subtask), "Подзадача создана с несуществующим эпиком");
+        assertThrows(NotFoundException.class, () -> manager.createSubtask(subtask), "Подзадача создана с несуществующим эпиком");
     }
 
     @Test
@@ -76,7 +76,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void getTask_returnsNull_taskDoesNotExist() {
-        assertNull(manager.getTask(999), "Найдена несуществующая задача");
+        assertThrows(NotFoundException.class, () ->manager.getTask(999), "Найдена несуществующая задача");
     }
 
     @Test
@@ -145,7 +145,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Task task = new Task("Task 1", "Description");
         manager.createTask(task);
         manager.deleteTask(task.getId());
-        assertNull(manager.getTask(task.getId()), "Задача не удалена");
+        assertThrows(NotFoundException.class, () ->manager.getTask(task.getId()), "Задача не удалена");
     }
 
     @Test
@@ -156,8 +156,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         manager.createSubtask(subtask);
         manager.deleteEpic(epic.getId());
 
-        assertNull(manager.getEpic(epic.getId()), "Эпик не удален");
-        assertNull(manager.getSubtask(subtask.getId()), "Подзадача не удалена");
+        assertThrows(NotFoundException.class, () ->manager.getEpic(epic.getId()), "Эпик не удален");
+        assertThrows(NotFoundException.class, () ->manager.getSubtask(subtask.getId()), "Подзадача не удалена");
     }
 
     @Test
@@ -168,7 +168,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         manager.createSubtask(subtask);
         manager.deleteSubtask(subtask.getId());
 
-        assertNull(manager.getSubtask(subtask.getId()), "Подзадача не удалена");
+        assertThrows(NotFoundException.class, () ->manager.getSubtask(subtask.getId()), "Подзадача не удалена");
         assertFalse(manager.getEpic(epic.getId()).getSubtasksIds().contains(subtask.getId()), "Подзадача осталась в эпике");
     }
 
